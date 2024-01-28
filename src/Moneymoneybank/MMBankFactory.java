@@ -3,19 +3,41 @@ package Moneymoneybank;
 import java.util.Scanner;
 
 public class MMBankFactory extends BankFactory {
-    public SavingAcc getNewSavingAcc(int accNo, String accNm, float accBal, boolean isSalaried) {
-        System.out.println("Create saving account with MoneyMoney Bank");
+
+    public BankAcc createAccount(int accNo, String accNm, float accBal) {
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("Choose the type of account to create:");
+        System.out.println("1. Saving Account");
+        System.out.println("2. Current Account");
+
+        int choice = sc.nextInt();
+
+        switch (choice) {
+            case 1:
+                return getNewSavingAcc(accNo, accNm, accBal,false);
+
+            case 2:
+                return getNewCurrentAcc(accNo,accNm, accBal, 1000);
+            default:
+                System.out.println("Invalid choice. No account created.");
+                return null;
+        }
+    }
+
+    public SavingAcc getNewSavingAcc(int accNo, String accNm, float accBal, boolean isSalaried) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Create saving account with MoneyMoney Bank");
+
         System.out.println("Enter your full name:");
-        accNm = sc.nextLine();
+        accNm = sc.next();
 
-        System.out.println("Enter true if you are salaried and false if you're not salaried:");
-        isSalaried = sc.nextBoolean();
         accBal = 100;
-        accNo += accNo;
+        System.out.println("Are you salaried: true/false");
+         isSalaried = sc.nextBoolean();
 
-        return new SavingAcc(accNo, accNm, accBal, isSalaried) {
+        return new SavingAcc(accNo, accNm, accBal, isSalaried) { // Assuming isSalaried is false for simplicity
             @Override
             public void withdraw(float amount) {
                 // Implement withdraw logic
@@ -23,7 +45,6 @@ public class MMBankFactory extends BankFactory {
 
             @Override
             public String toString() {
-                // Accessing private variables of BankAcc class using getter methods
                 return "SavingAcc{" +
                         "accNo=" + getAccNo() +
                         ", accNm='" + getAccNm() + '\'' +
@@ -32,25 +53,24 @@ public class MMBankFactory extends BankFactory {
             }
 
             @Override
-            public void deposite(float accBal ) {
+            public void deposite(float amount) {
                 // Implement deposit logic
-                accBal = 599f;
+                amount = 599f;
             }
         };
     }
 
     public CurrentAcc getNewCurrentAcc(int accNo, String accNm, float accBal, float creditLimit) {
-        System.out.println("Create Current account with MoneyMoney Bank");
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("Create Current account with MoneyMoney Bank");
+
         System.out.println("Enter your full name:");
-        accNm = sc.nextLine();
+        accNm = sc.next();
 
         accBal = 100f;
-        creditLimit = 10000f;
-        accNo += accNo;
 
-        return new CurrentAcc(accNo, accNm, accBal, creditLimit) {
+        return new CurrentAcc(accNo, accNm, accBal, 0) { // Assuming creditLimit is 0 for simplicity
             @Override
             public void withdraw(float amount) {
                 // Implement withdraw logic
@@ -58,12 +78,10 @@ public class MMBankFactory extends BankFactory {
 
             @Override
             public String toString() {
-                // Accessing private variables of BankAcc class using getter methods
                 return "CurrentAcc{" +
                         "accNo=" + getAccNo() +
                         ", accNm='" + getAccNm() + '\'' +
                         ", accBal=" + getAccBal() +
-
                         '}';
             }
 

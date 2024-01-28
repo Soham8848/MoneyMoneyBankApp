@@ -1,7 +1,5 @@
 package Moneymoneybank;
 
-import java.util.Scanner;
-
 public abstract class BankFactory {
 
     public abstract SavingAcc getNewSavingAcc(int accNo, String accNm, float accBal, boolean isSalaried);

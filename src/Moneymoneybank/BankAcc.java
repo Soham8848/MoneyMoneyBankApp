@@ -1,7 +1,7 @@
 package Moneymoneybank;
 
 public abstract class BankAcc {
-    private int accNo = 1000;
+    private int accNo = 100;
     private String accNm;
     private float accBal;
 
